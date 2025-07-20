@@ -1,3 +1,62 @@
+# Clean Architecture in Next.js (Frontend Only)
+
+```text
+📦 root
+├─ app/                                   # Next 15 路由
+│  ├─ layout.tsx                          # 🌍 全站 Providers
+│  └─ api/
+│      └─ auth/[...nextauth]/route.ts     # NextAuth Handler
+│
+│  └─ (dashboard)/                        # Dashboard 路由群
+│      ├─ layout.tsx                      # Header / Sidebar / Slot
+│      ├─ page.tsx                        # Slot 容器
+│      ├─ @main/page.tsx                  # 主面板
+│      └─ @detail/[id]/page.tsx           # 詳細頁
+│
+├─ src/
+│  ├─ domain/                             # 不變規則
+│  │   ├─ todo.ts
+│  │   └─ utils/validateOpeNoFormat.ts
+│  │
+│  ├─ application/                        # 用例
+│  │   └─ todos/{fetchTodos.ts, createTodo.ts}
+│  │
+│  ├─ infrastructure/
+│  │   ├─ api/{httpClient.ts, todos.ts, users.ts, index.ts}
+│  │   ├─ hooks/{useTodos.ts, useCreateTodo.ts}
+│  │   ├─ store/{authAtoms.ts, uiAtoms.ts}
+│  │   ├─ auth/{nextAuthOptions.ts, nextAuthHandler.ts}
+│  │   └─ providers/{GlobalProvider.tsx, index.ts}
+│  │
+│  ├─ ui/                                 # 設計系統
+│  │   ├─ Button.tsx
+│  │   └─ utils/classNames.ts
+│  │
+│  ├─ shared/uuid.ts                      # 零依賴工具
+│  │
+│  └─ features/
+│      ├─ dashboard/{atoms.ts, DashboardShell.tsx}
+│      └─ todos/
+│          ├─ atoms.ts
+│          ├─ TodoShell.tsx
+│          ├─ {QueryBar.tsx, TodoTable.tsx, TodoModal.tsx}
+│          └─ index.ts
+│
+├─ tests/                                 # 📐 測試根目錄
+│  ├─ unit/                               # ← Vitest
+│  │   ├─ domain/                         # 純函式（無 Mock）
+│  │   ├─ application/                    # Stub API Client
+│  │   ├─ infrastructure/                 # MSW + Testing Library
+│  │   └─ features/                       # 元件測試
+│  └─ e2e/                                # ← Playwright
+│      ├─ dashboard.spec.ts
+│      └─ auth.spec.ts
+│
+├─ vitest.config.ts                       # 單元／整合測試
+├─ playwright.config.ts                   # E2E 測試
+└─ tsconfig.json
+```
+
 # Clean Architecture in Next.js
 
 This repo is an example of how to achieve Clean Architecture in Next.js. There's
